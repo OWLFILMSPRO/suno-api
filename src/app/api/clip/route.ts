@@ -1,11 +1,8 @@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
 import { NextResponse, NextRequest } from "next/server";
 import { sunoApi } from "@/lib/SunoApi";
 import { corsHeaders } from "@/lib/utils";
-
-export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   if (req.method === 'GET') {
@@ -21,9 +18,7 @@ export async function GET(req: NextRequest) {
           }
         });
       }
-
-      const audioInfo = await (await sunoApi()).getClip(clipId);
-
+      const audioInfo = await (await sunoApi()).getClip(String(clipId));
       return new NextResponse(JSON.stringify(audioInfo), {
         status: 200,
         headers: {
@@ -33,7 +28,6 @@ export async function GET(req: NextRequest) {
       });
     } catch (error) {
       console.error('Error fetching audio:', error);
-
       return new NextResponse(JSON.stringify({ error: 'Internal server error' }), {
         status: 500,
         headers: {
